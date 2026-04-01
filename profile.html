@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile — Habiness</title>
+  <meta name="description" content="Manage your Habiness account, view orders, and update your information." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" />Habi<span>ness</span></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="index.html#artisan">Artisans</a></li>
+        <li><a href="index.html#values">About</a></li>
+        <li>
+          <button class="cart-btn" onclick="openCartDrawer()" aria-label="Open cart">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            <span class="cart-badge">0</span>
+          </button>
+        </li>
+      </ul>
+      <div class="nav-right-mobile">
+        <button class="cart-btn" onclick="openCartDrawer()" aria-label="Open cart">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-badge">0</span>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ PROFILE SECTION ============ -->
+  <section class="profile-section" style="padding: calc(72px + var(--sp-6)) 0 var(--sp-7);">
+    <div class="container" style="max-width: 1000px;">
+      <h1 style="margin-bottom: var(--sp-5);">My Profile</h1>
+
+      <!-- Profile Tabs -->
+      <div class="profile-tabs" style="display: flex; gap: var(--sp-2); margin-bottom: var(--sp-5); border-bottom: 2px solid rgba(140, 90, 60, 0.12);">
+        <button class="profile-tab active" data-tab="info" style="padding: var(--sp-2) var(--sp-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 600; color: var(--text-light); transition: all 0.3s ease;">Account Info</button>
+        <button class="profile-tab" data-tab="orders" style="padding: var(--sp-2) var(--sp-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 600; color: var(--text-light); transition: all 0.3s ease;">My Orders</button>
+      </div>
+
+      <!-- Account Info Tab -->
+      <div class="profile-content" id="tab-info">
+        <div style="background: #fff; padding: var(--sp-5); border: 1px solid rgba(140, 90, 60, 0.12);">
+          <h2 style="margin-bottom: var(--sp-4); font-size: 1.4rem;">Account Information</h2>
+          
+          <div class="success-message" id="update-success" style="display: none; background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: var(--sp-2) var(--sp-3); border-radius: 4px; margin-bottom: var(--sp-3);">
+            Profile updated successfully!
+          </div>
+
+          <form id="profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" readonly style="background: rgba(140, 90, 60, 0.05); color: var(--text-light);" />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" />
+            </div>
+
+            <h3 style="margin: var(--sp-4) 0 var(--sp-2); font-size: 1.1rem;">Shipping Address</h3>
+
+            <div class="form-group">
+              <label for="street">Street Address</label>
+              <input type="text" id="street" name="street" placeholder="Street address" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" />
+              </div>
+              <div class="form-group">
+                <label for="province">Province</label>
+                <input type="text" id="province" name="province" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="zip">ZIP Code</label>
+                <input type="text" id="zip" name="zip" />
+              </div>
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" value="Philippines" readonly style="background: rgba(140, 90, 60, 0.05); color: var(--text-light);" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn" style="margin-top: var(--sp-3);" id="update-btn">
+              <span class="btn-text">Update Profile</span>
+              <span class="btn-loader" style="display: none;">
+                <svg class="spinner" viewBox="0 0 50 50" style="width: 20px; height: 20px;">
+                  <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                </svg>
+              </span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Orders Tab -->
+      <div class="profile-content" id="tab-orders" style="display: none;">
+        <div style="background: #fff; padding: var(--sp-5); border: 1px solid rgba(140, 90, 60, 0.12);">
+          <h2 style="margin-bottom: var(--sp-4); font-size: 1.4rem;">Order History</h2>
+          <div id="orders-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-bottom" style="border: none; padding-top: 0;">
+        <p>&copy; 2026 Habiness. All rights reserved.</p>
+        <p>Cebu City, Central Visayas, Philippines</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="auth.js"></script>
+  <script src="cart.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Redirect if not logged in
+      if (!HabinessAuth.isLoggedIn()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = HabinessAuth.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Populate form with user data
+      document.getElementById('firstName').value = user.firstName || '';
+      document.getElementById('lastName').value = user.lastName || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('phone').value = user.phone || '';
+      
+      if (user.address) {
+        document.getElementById('street').value = user.address.street || '';
+        document.getElementById('city').value = user.address.city || '';
+        document.getElementById('province').value = user.address.province || '';
+        document.getElementById('zip').value = user.address.zip || '';
+      }
+
+      // Tab switching
+      const tabs = document.querySelectorAll('.profile-tab');
+      const contents = document.querySelectorAll('.profile-content');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const targetTab = tab.dataset.tab;
+          
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            t.style.color = 'var(--text-light)';
+            t.style.borderBottomColor = 'transparent';
+          });
+          
+          tab.classList.add('active');
+          tab.style.color = 'var(--accent)';
+          tab.style.borderBottomColor = 'var(--accent)';
+
+          contents.forEach(content => {
+            content.style.display = 'none';
+          });
+
+          document.getElementById(`tab-${targetTab}`).style.display = 'block';
+
+          if (targetTab === 'orders') {
+            renderOrders();
+          }
+        });
+      });
+
+      // Initialize active tab
+      tabs[0].style.color = 'var(--accent)';
+      tabs[0].style.borderBottomColor = 'var(--accent)';
+
+      // Handle profile update
+      const form = document.getElementById('profile-form');
+      const updateBtn = document.getElementById('update-btn');
+      const btnText = updateBtn.querySelector('.btn-text');
+      const btnLoader = updateBtn.querySelector('.btn-loader');
+      const successMsg = document.getElementById('update-success');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        updateBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline-flex';
+        successMsg.style.display = 'none';
+
+        await new Promise(resolve => setTimeout(resolve, 800));
+
+        const updates = {
+          firstName: document.getElementById('firstName').value.trim(),
+          lastName: document.getElementById('lastName').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          address: {
+            street: document.getElementById('street').value.trim(),
+            city: document.getElementById('city').value.trim(),
+            province: document.getElementById('province').value.trim(),
+            zip: document.getElementById('zip').value.trim(),
+            country: 'Philippines'
+          }
+        };
+
+        const result = HabinessAuth.updateUserProfile(updates);
+
+        updateBtn.disabled = false;
+        btnText.style.display = 'inline';
+        btnLoader.style.display = 'none';
+
+        if (result.success) {
+          successMsg.style.display = 'block';
+          showToast('Profile updated successfully!', 'success');
+          setTimeout(() => {
+            successMsg.style.display = 'none';
+          }, 3000);
+        } else {
+          showToast(result.error || 'Failed to update profile', 'error');
+        }
+      });
+
+      // Render orders
+      function renderOrders() {
+        const ordersList = document.getElementById('orders-list');
+        const user = HabinessAuth.getCurrentUser();
+
+        if (!user || !user.orders || user.orders.length === 0) {
+          ordersList.innerHTML = `
+            <div style="text-align: center; padding: var(--sp-6) 0; color: var(--text-light);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto var(--sp-3); opacity: 0.3;">
+                <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+              <h3 style="margin-bottom: var(--sp-2);">No orders yet</h3>
+              <p style="margin-bottom: var(--sp-3);">Start shopping to see your orders here.</p>
+              <a href="shop.html" class="btn btn-outline">Browse Products</a>
+            </div>
+          `;
+          return;
+        }
+
+        ordersList.innerHTML = user.orders.map(order => {
+          const date = new Date(order.createdAt);
+          const formattedDate = date.toLocaleDateString('en-PH', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          });
+
+          return `
+            <div style="border-bottom: 1px solid rgba(140, 90, 60, 0.12); padding: var(--sp-3) 0;">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--sp-2);">
+                <div>
+                  <h3 style="font-size: 1rem; margin-bottom: 4px;">Order #${order.id}</h3>
+                  <p style="font-size: 0.85rem; color: var(--text-light);">${formattedDate}</p>
+                </div>
+                <span style="padding: 4px 12px; background: rgba(192, 133, 82, 0.15); color: var(--accent-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; border-radius: 4px;">${order.status}</span>
+              </div>
+              <div style="margin-bottom: var(--sp-2);">
+                ${order.items.map(item => `
+                  <div style="font-size: 0.9rem; color: var(--text-light); padding: 4px 0;">
+                    ${item.name} × ${item.qty} - ${HabinessCart.formatPrice(item.subtotal)}
+                  </div>
+                `).join('')}
+              </div>
+              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; color: var(--accent);">
+                Total: ${HabinessCart.formatPrice(order.total)}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Check URL hash for orders
+      if (window.location.hash === '#orders') {
+        tabs[1].click();
+      }
+    });
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast toast-${type} show`;
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

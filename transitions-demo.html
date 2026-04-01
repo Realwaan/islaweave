@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smooth Transitions Demo - IslaWeave</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #FFF8F0 0%, rgba(192,133,82,0.1) 100%);
+      padding: 40px 20px;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #C08552;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-align: center;
+      animation: slideDown 0.6s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #4B2E2B;
+      margin-bottom: 40px;
+      animation: fadeIn 0.8s ease-out 0.2s both;
+    }
+
+    .demo-section {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(75, 46, 43, 0.1);
+      animation: fadeInUp 0.6s ease-out both;
+    }
+
+    .demo-section:nth-child(2) { animation-delay: 0.1s; }
+    .demo-section:nth-child(3) { animation-delay: 0.2s; }
+    .demo-section:nth-child(4) { animation-delay: 0.3s; }
+    .demo-section:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      color: #4B2E2B;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .demo-card {
+      background: linear-gradient(135deg, #FFF8F0 0%, #fff 100%);
+      border: 2px solid rgba(192, 133, 82, 0.2);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(192, 133, 82, 0.2);
+      border-color: #C08552;
+    }
+
+    .demo-card.animating {
+      animation: pulse 0.6s ease;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .btn {
+      background: #C08552;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin: 10px;
+    }
+
+    .btn:hover {
+      background: #a06b3a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(192, 133, 82, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      width: 20px;
+      height: 20px;
+      animation: rippleEffect 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes rippleEffect {
+      from {
+        transform: scale(0);
+        opacity: 1;
+      }
+      to {
+        transform: scale(20);
+        opacity: 0;
+      }
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+      border-left: 3px solid #C08552;
+    }
+
+    .timeline-item {
+      margin-bottom: 30px;
+      padding: 15px;
+      background: #FFF8F0;
+      border-radius: 8px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -37px;
+      top: 20px;
+      width: 12px;
+      height: 12px;
+      background: #C08552;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+
+    .timeline-item:hover {
+      transform: translateX(10px);
+      background: white;
+      box-shadow: 0 4px 12px rgba(75, 46, 43, 0.1);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #C08552 0%, #a06b3a 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      animation: countUp 1s ease-out;
+    }
+
+    .stat-card h3 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .action-buttons {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .demo-input {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid rgba(192, 133, 82, 0.2);
+      border-radius: 6px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .demo-input:focus {
+      outline: none;
+      border-color: #C08552;
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(192, 133, 82, 0.1);
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+
+    .success-badge {
+      display: inline-block;
+      background: #27ae60;
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      animation: bounceIn 0.6s ease;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Smooth Transitions Showcase</h1>
+    <p class="subtitle">Experience the enhanced animations of IslaWeave</p>
+
+    <div class="demo-section">
+      <h2>🎨 Page Load Animation</h2>
+      <p>Notice how this entire page faded in smoothly when you loaded it? That's the page transition effect in action!</p>
+      <div class="stats">
+        <div class="stat-card" style="animation-delay: 0.2s;">
+          <h3>0.5s</h3>
+          <p>Fade Duration</p>
+        </div>
+        <div class="stat-card" style="animation-delay: 0.3s;">
+          <h3>6+</h3>
+          <p>Animations</p>
+        </div>
+        <div class="stat-card" style="animation-delay: 0.4s;">
+          <h3>100%</h3>
+          <p>Smooth</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>🎯 Interactive Elements</h2>
+      <p>Click the buttons below to see the ripple effect and hover animations:</p>
+      <div style="margin-top: 20px;">
+        <button class="btn" onclick="createRipple(event, this)">Primary Button</button>
+        <button class="btn" onclick="createRipple(event, this)">Secondary Button</button>
+        <button class="btn" onclick="createRipple(event, this)">Action Button</button>
+      </div>
+      <input type="text" class="demo-input" placeholder="Try typing here - notice the smooth focus animation">
+    </div>
+
+    <div class="demo-section">
+      <h2>📦 Product Card Animation</h2>
+      <p>Hover over these cards to see the smooth elevation effect. Click to see the ripple!</p>
+      <div class="demo-grid">
+        <div class="demo-card" onclick="animateCard(this)">
+          <div style="font-size: 3rem; margin-bottom: 10px;">🧺</div>
+          <h3>Baskets</h3>
+          <p style="color: #7a5550;">Handwoven</p>
+        </div>
+        <div class="demo-card" onclick="animateCard(this)">
+          <div style="font-size: 3rem; margin-bottom: 10px;">🎨</div>
+          <h3>Textiles</h3>
+          <p style="color: #7a5550;">Traditional</p>
+        </div>
+        <div class="demo-card" onclick="animateCard(this)">
+          <div style="font-size: 3rem; margin-bottom: 10px;">🎸</div>
+          <h3>Guitars</h3>
+          <p style="color: #7a5550;">Handcrafted</p>
+        </div>
+        <div class="demo-card" onclick="animateCard(this)">
+          <div style="font-size: 3rem; margin-bottom: 10px;">🏺</div>
+          <h3>Pottery</h3>
+          <p style="color: #7a5550;">Artisan</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>⏱️ Animation Timeline</h2>
+      <p>Hover over each item to see the smooth slide effect:</p>
+      <div class="timeline">
+        <div class="timeline-item">
+          <strong>Page Loads</strong> → Body fades in (0.5s)
+        </div>
+        <div class="timeline-item">
+          <strong>Shop Hero</strong> → Slides down (0.8s)
+        </div>
+        <div class="timeline-item">
+          <strong>Search Bar</strong> → Slides in (0.7s)
+        </div>
+        <div class="timeline-item">
+          <strong>Products</strong> → Stagger cascade (0.1s-0.45s)
+        </div>
+        <div class="timeline-item">
+          <strong>Interactions</strong> → Ripples & feedback
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>✅ Features Implemented</h2>
+      <div style="display: grid; gap: 15px; margin-top: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="success-badge">✓</span>
+          <span>Smooth page-to-page transitions</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="success-badge">✓</span>
+          <span>Staggered product card animations</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="success-badge">✓</span>
+          <span>Ripple effects on interactions</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="success-badge">✓</span>
+          <span>Debounced search (300ms)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="success-badge">✓</span>
+          <span>Category filter transitions</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="success-badge">✓</span>
+          <span>Hover and focus animations</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>💻 Code Example</h2>
+      <p>Here's how the product fade-in animation works:</p>
+      <div class="code-block">
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.product-card:nth-child(1) { animation-delay: 0.1s; }
+.product-card:nth-child(2) { animation-delay: 0.15s; }
+/* ... staggered delays */
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn" onclick="window.open('shop.html', '_blank')" style="font-size: 1.2rem; padding: 15px 40px;">
+        🛍️ Experience the Shop Page
+      </button>
+      <button class="btn" onclick="window.open('TRANSITIONS.md', '_blank')" style="background: #4B2E2B;">
+        📖 Read Full Documentation
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function createRipple(event, button) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+      
+      const rect = button.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      
+      button.appendChild(ripple);
+      
+      setTimeout(() => ripple.remove(), 600);
+    }
+
+    function animateCard(card) {
+      card.classList.add('animating');
+      setTimeout(() => card.classList.remove('animating'), 600);
+    }
+
+    // Add scroll animation
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.demo-section');
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.8) {
+          section.style.opacity = '1';
+          section.style.transform = 'translateY(0)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
