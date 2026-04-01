@@ -201,7 +201,7 @@ function renderCartDrawer() {
 
   itemsContainer.innerHTML = cartItems.map(item => `
     <div class="cart-item" data-id="${item.id}">
-      <img src="${item.image}" alt="${item.alt}" class="cart-item-img" />
+      <img src="${item.image}" alt="${item.alt}" class="cart-item-img" loading="lazy" decoding="async" />
       <div class="cart-item-info">
         <h4>${item.name}</h4>
         <p class="cart-item-artisan">${item.artisan}</p>

@@ -12,7 +12,7 @@
   <!-- ============ NAVIGATION ============ -->
   <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
     <div class="container nav-inner">
-      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" />Habi<span>ness</span></a>
+      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" loading="eager" fetchpriority="high" decoding="async" />Habi<span>ness</span></a>
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html" class="active">Shop</a></li>
@@ -51,15 +51,15 @@
   <section class="shop-section">
     <div class="container">
       <!-- Search Bar -->
-      <div class="shop-search" style="margin-bottom: var(--sp-4);">
-        <div class="search-input-wrapper" style="max-width: 500px; margin: 0 auto; position: relative;">
+      <div class="shop-search">
+        <div class="search-input-wrapper">
           <input 
             type="search" 
             id="product-search" 
             placeholder="Search for products..." 
-            style="width: 100%; padding: 14px 48px 14px 20px; border: 1.5px solid rgba(140, 90, 60, 0.2); background: #fff; font-family: var(--font-body); font-size: 0.95rem; outline: none; transition: border-color 0.3s ease;"
+            class="shop-search-input"
           />
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-light); pointer-events: none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shop-search-icon">
             <circle cx="11" cy="11" r="8"/>
             <path d="m21 21-4.35-4.35"/>
           </svg>
@@ -80,12 +80,12 @@
       <div class="products-grid shop-grid" id="shop-products"></div>
       
       <!-- No Results Message -->
-      <div id="no-results" style="display: none; text-align: center; padding: var(--sp-7) 0; color: var(--text-light);">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto var(--sp-3); opacity: 0.3;">
+      <div id="no-results" class="no-results">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/>
           <path d="m21 21-4.35-4.35"/>
         </svg>
-        <h3 style="margin-bottom: var(--sp-2);">No products found</h3>
+        <h3>No products found</h3>
         <p>Try adjusting your search or filter to find what you're looking for.</p>
       </div>
     </div>
@@ -96,7 +96,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" />Habi<span>ness</span></a>
+          <a href="index.html" class="nav-logo"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" loading="lazy" decoding="async" />Habi<span>ness</span></a>
           <p>A curated marketplace connecting you with the handcrafted traditions and skilled artisans of the Central Visayas, Philippines.</p>
         </div>
         <div class="footer-col">
@@ -136,10 +136,10 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <script src="auth.js"></script>
-  <script src="cart.js"></script>
-  <script src="shop.js"></script>
-  <script src="script.js"></script>
+  <script src="auth.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script src="shop.js" defer></script>
+  <script src="script.js" defer></script>
   <script>
     // Global toast function for shop page
     function showToast(message, type = 'info') {

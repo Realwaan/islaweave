@@ -12,7 +12,7 @@
   <!-- ============ NAVIGATION ============ -->
   <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
     <div class="container nav-inner">
-      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" />Habi<span>ness</span></a>
+      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" loading="eager" fetchpriority="high" decoding="async" />Habi<span>ness</span></a>
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
@@ -180,9 +180,9 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <script src="auth.js"></script>
-  <script src="cart.js"></script>
-  <script src="script.js"></script>
+  <script src="auth.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script src="script.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Redirect if already logged in

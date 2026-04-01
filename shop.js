@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const filtersContainer = document.getElementById('shop-filters');
   const searchInput = document.getElementById('product-search');
   const noResults = document.getElementById('no-results');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   if (!grid || !filtersContainer) return;
 
   let activeCategory = 'all';
   let searchTerm = '';
+  let searchTimeout;
 
   /* --- Render Products with Smooth Transition --- */
   function renderProducts(category, search = '', animated = true) {
@@ -30,26 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (products.length === 0) {
-      // Fade out grid smoothly
-      if (animated) {
+      if (animated && !prefersReducedMotion) {
         grid.style.opacity = '0';
         grid.style.transform = 'translateY(20px)';
+        grid.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         setTimeout(() => {
           grid.innerHTML = '';
+          noResults.classList.add('is-visible');
           noResults.style.display = 'block';
-          noResults.style.animation = 'fadeIn 0.5s ease-out';
         }, 300);
       } else {
         grid.innerHTML = '';
+        noResults.classList.add('is-visible');
         noResults.style.display = 'block';
       }
       return;
     }
 
+    noResults.classList.remove('is-visible');
     noResults.style.display = 'none';
 
     // Fade out old products if animated
-    if (animated && grid.children.length > 0) {
+    if (animated && !prefersReducedMotion && grid.children.length > 0) {
       grid.style.opacity = '0';
       grid.style.transform = 'translateY(20px)';
       grid.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
@@ -133,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* --- Search Input with Debounce --- */
-  let searchTimeout;
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       clearTimeout(searchTimeout);
@@ -145,38 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 300);
     });
 
-    // Focus styles with smooth transition
-    searchInput.addEventListener('focus', (e) => {
-      e.target.style.borderColor = 'var(--accent)';
-      e.target.style.transform = 'scale(1.02)';
-      e.target.style.transition = 'all 0.3s ease';
-    });
-
-    searchInput.addEventListener('blur', (e) => {
-      e.target.style.borderColor = 'rgba(140, 90, 60, 0.2)';
-      e.target.style.transform = 'scale(1)';
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        e.target.value = '';
+        searchTerm = '';
+        renderProducts(activeCategory, searchTerm, true);
+      }
     });
   }
 
   // Initial render (no animation on first load)
   renderProducts('all', '', false);
-
-  // Add CSS for ripple animation if not exists
-  if (!document.getElementById('shop-animations')) {
-    const style = document.createElement('style');
-    style.id = 'shop-animations';
-    style.textContent = `
-      @keyframes ripple {
-        from {
-          transform: scale(0);
-          opacity: 1;
-        }
-        to {
-          transform: scale(40);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
 });

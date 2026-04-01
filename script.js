@@ -3,33 +3,30 @@
    ============================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* --- Scroll Reveal (Intersection Observer) --- */
   const revealElements = document.querySelectorAll('.reveal');
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, index) => {
-      if (entry.isIntersecting) {
-        // Stagger the animation by adding a delay based on sibling position
-        const siblings = entry.target.parentElement.querySelectorAll('.reveal');
-        let siblingIndex = 0;
-        siblings.forEach((sib, i) => {
-          if (sib === entry.target) siblingIndex = i;
-        });
-
-        setTimeout(() => {
+  if (prefersReducedMotion) {
+    revealElements.forEach((el) => el.classList.add('visible'));
+  } else if (revealElements.length > 0) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-        }, siblingIndex * 100);
-
-        revealObserver.unobserve(entry.target);
-      }
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
     });
-  }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -40px 0px'
-  });
 
-  revealElements.forEach(el => revealObserver.observe(el));
+    revealElements.forEach((el, idx) => {
+      el.style.setProperty('--reveal-delay', `${Math.min(idx * 40, 320)}ms`);
+      revealObserver.observe(el);
+    });
+  }
 
 
   /* --- Navbar Scroll Effect --- */
@@ -50,34 +47,60 @@ document.addEventListener('DOMContentLoaded', () => {
   /* --- Mobile Navigation Toggle --- */
   const navToggle = document.getElementById('nav-toggle');
   const navLinks  = document.getElementById('nav-links');
+  let lastFocusedElement = null;
 
-  navToggle.addEventListener('click', () => {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen);
+  const closeMobileNav = () => {
+    if (!navToggle || !navLinks) return;
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('active');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+  };
 
-    // Animate hamburger to X
-    const spans = navToggle.querySelectorAll('span');
-    if (isOpen) {
-      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-      spans[1].style.opacity = '0';
-      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-    } else {
-      spans[0].style.transform = '';
-      spans[1].style.opacity = '';
-      spans[2].style.transform = '';
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('active', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.classList.toggle('nav-open', isOpen);
+      if (isOpen) {
+        lastFocusedElement = document.activeElement;
+      }
+    });
+  }
+
+  // Close mobile nav when clicking a link
+  if (navLinks) {
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        closeMobileNav();
+      });
+    });
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeMobileNav();
     }
   });
 
-  // Close mobile nav when clicking a link
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.setAttribute('aria-expanded', 'false');
-      const spans = navToggle.querySelectorAll('span');
-      spans[0].style.transform = '';
-      spans[1].style.opacity = '';
-      spans[2].style.transform = '';
-    });
+  document.addEventListener('click', (event) => {
+    if (!navLinks || !navToggle) return;
+    const navIsOpen = navLinks.classList.contains('open');
+    if (!navIsOpen) return;
+    const clickedInsideNav = navLinks.contains(event.target) || navToggle.contains(event.target);
+    if (!clickedInsideNav) {
+      closeMobileNav();
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      closeMobileNav();
+    }
   });
 
 
@@ -98,39 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
-  /* --- Smooth Page Transitions --- */
-  // Add fade-out effect before navigating to new page
-  const links = document.querySelectorAll('a[href*=".html"]');
-  
-  links.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const href = link.getAttribute('href');
-      
-      // Skip if external link or current page
-      if (!href || href.startsWith('http') || href === '#') return;
-      
-      // Skip if opening in new tab
-      if (e.ctrlKey || e.shiftKey || e.metaKey || e.button === 1) return;
-
-      e.preventDefault();
-      
-      // Add fade-out effect
-      document.body.style.transition = 'opacity 0.3s ease';
-      document.body.style.opacity = '0';
-      
-      // Navigate after animation
-      setTimeout(() => {
-        window.location.href = href;
-      }, 300);
-    });
-  });
-
-  // Fade in on page load
-  document.body.style.opacity = '0';
-  setTimeout(() => {
-    document.body.style.transition = 'opacity 0.5s ease';
-    document.body.style.opacity = '1';
-  }, 50);
+  /* --- Lightweight Page Fade-In --- */
+  if (!prefersReducedMotion) {
+    document.body.classList.add('page-ready');
+  }
 
 
   /* --- Product Card Click Enhancement --- */
@@ -163,24 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => ripple.remove(), 800);
     });
   });
-
-  // Add card ripple animation
-  if (!document.getElementById('card-ripple-animation')) {
-    const style = document.createElement('style');
-    style.id = 'card-ripple-animation';
-    style.textContent = `
-      @keyframes cardRipple {
-        from {
-          transform: scale(0);
-          opacity: 1;
-        }
-        to {
-          transform: scale(30);
-          opacity: 0;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
 
 });

@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     summaryItems.innerHTML = items.map(item => `
       <div class="summary-item">
-        <img src="${item.image}" alt="${item.alt}" />
+        <img src="${item.image}" alt="${item.alt}" loading="lazy" decoding="async" />
         <div class="summary-item-info">
           <h4>${item.name}</h4>
           <p>Qty: ${item.qty}</p>
@@ -89,11 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (HabinessCart.getItemCount() === 0) return;
 
     // Show loading state
-    const btnText = orderBtn.querySelector('svg');
     const originalHTML = orderBtn.innerHTML;
     orderBtn.disabled = true;
     orderBtn.innerHTML = `<span class="btn-loader">
-      <svg class="spinner" viewBox="0 0 50 50" style="width: 24px; height: 24px;">
+      <svg class="spinner" viewBox="0 0 50 50">
         <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
       </svg>
     </span>Processing...`;
@@ -131,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show confirmation modal
     const modal = document.getElementById('order-modal');
-    modal.style.display = 'flex';
+    modal.classList.remove('hidden');
 
     // Clear cart
     HabinessCart.clearCart();

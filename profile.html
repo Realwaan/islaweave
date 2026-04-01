@@ -12,7 +12,7 @@
   <!-- ============ NAVIGATION ============ -->
   <nav class="site-nav" id="site-nav" role="navigation" aria-label="Main navigation">
     <div class="container nav-inner">
-      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" />Habi<span>ness</span></a>
+      <a href="index.html" class="nav-logo" aria-label="Habiness Home"><img src="images/logo.png" alt="Habiness logo" class="nav-logo-img" loading="eager" fetchpriority="high" decoding="async" />Habi<span>ness</span></a>
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
@@ -38,22 +38,22 @@
   </nav>
 
   <!-- ============ PROFILE SECTION ============ -->
-  <section class="profile-section" style="padding: calc(72px + var(--sp-6)) 0 var(--sp-7);">
-    <div class="container" style="max-width: 1000px;">
-      <h1 style="margin-bottom: var(--sp-5);">My Profile</h1>
+  <section class="profile-section">
+    <div class="container profile-container">
+      <h1 class="profile-title">My Profile</h1>
 
       <!-- Profile Tabs -->
-      <div class="profile-tabs" style="display: flex; gap: var(--sp-2); margin-bottom: var(--sp-5); border-bottom: 2px solid rgba(140, 90, 60, 0.12);">
-        <button class="profile-tab active" data-tab="info" style="padding: var(--sp-2) var(--sp-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 600; color: var(--text-light); transition: all 0.3s ease;">Account Info</button>
-        <button class="profile-tab" data-tab="orders" style="padding: var(--sp-2) var(--sp-3); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 600; color: var(--text-light); transition: all 0.3s ease;">My Orders</button>
+      <div class="profile-tabs">
+        <button class="profile-tab active" data-tab="info">Account Info</button>
+        <button class="profile-tab" data-tab="orders">My Orders</button>
       </div>
 
       <!-- Account Info Tab -->
       <div class="profile-content" id="tab-info">
-        <div style="background: #fff; padding: var(--sp-5); border: 1px solid rgba(140, 90, 60, 0.12);">
-          <h2 style="margin-bottom: var(--sp-4); font-size: 1.4rem;">Account Information</h2>
+        <div class="profile-card">
+          <h2 class="profile-card-title">Account Information</h2>
           
-          <div class="success-message" id="update-success" style="display: none; background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: var(--sp-2) var(--sp-3); border-radius: 4px; margin-bottom: var(--sp-3);">
+          <div class="success-message" id="update-success">
             Profile updated successfully!
           </div>
 
@@ -71,7 +71,7 @@
 
             <div class="form-group">
               <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" readonly style="background: rgba(140, 90, 60, 0.05); color: var(--text-light);" />
+              <input type="email" id="email" name="email" readonly class="readonly-input" />
             </div>
 
             <div class="form-group">
@@ -79,7 +79,7 @@
               <input type="tel" id="phone" name="phone" placeholder="+63 912 345 6789" />
             </div>
 
-            <h3 style="margin: var(--sp-4) 0 var(--sp-2); font-size: 1.1rem;">Shipping Address</h3>
+            <h3 class="profile-subheading">Shipping Address</h3>
 
             <div class="form-group">
               <label for="street">Street Address</label>
@@ -104,14 +104,14 @@
               </div>
               <div class="form-group">
                 <label for="country">Country</label>
-                <input type="text" id="country" name="country" value="Philippines" readonly style="background: rgba(140, 90, 60, 0.05); color: var(--text-light);" />
+                <input type="text" id="country" name="country" value="Philippines" readonly class="readonly-input" />
               </div>
             </div>
 
-            <button type="submit" class="btn" style="margin-top: var(--sp-3);" id="update-btn">
+            <button type="submit" class="btn profile-submit-btn" id="update-btn">
               <span class="btn-text">Update Profile</span>
-              <span class="btn-loader" style="display: none;">
-                <svg class="spinner" viewBox="0 0 50 50" style="width: 20px; height: 20px;">
+              <span class="btn-loader hidden">
+                <svg class="spinner spinner-small" viewBox="0 0 50 50">
                   <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
                 </svg>
               </span>
@@ -121,9 +121,9 @@
       </div>
 
       <!-- Orders Tab -->
-      <div class="profile-content" id="tab-orders" style="display: none;">
-        <div style="background: #fff; padding: var(--sp-5); border: 1px solid rgba(140, 90, 60, 0.12);">
-          <h2 style="margin-bottom: var(--sp-4); font-size: 1.4rem;">Order History</h2>
+      <div class="profile-content hidden" id="tab-orders">
+        <div class="profile-card">
+          <h2 class="profile-card-title">Order History</h2>
           <div id="orders-list"></div>
         </div>
       </div>
@@ -133,7 +133,7 @@
   <!-- ============ FOOTER ============ -->
   <footer class="site-footer" role="contentinfo">
     <div class="container">
-      <div class="footer-bottom" style="border: none; padding-top: 0;">
+      <div class="footer-bottom footer-bottom-minimal">
         <p>&copy; 2026 Habiness. All rights reserved.</p>
         <p>Cebu City, Central Visayas, Philippines</p>
       </div>
@@ -143,9 +143,9 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast"></div>
 
-  <script src="auth.js"></script>
-  <script src="cart.js"></script>
-  <script src="script.js"></script>
+  <script src="auth.js" defer></script>
+  <script src="cart.js" defer></script>
+  <script src="script.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       // Redirect if not logged in
@@ -181,31 +181,19 @@
         tab.addEventListener('click', () => {
           const targetTab = tab.dataset.tab;
           
-          tabs.forEach(t => {
-            t.classList.remove('active');
-            t.style.color = 'var(--text-light)';
-            t.style.borderBottomColor = 'transparent';
-          });
+          tabs.forEach(t => t.classList.remove('active'));
           
           tab.classList.add('active');
-          tab.style.color = 'var(--accent)';
-          tab.style.borderBottomColor = 'var(--accent)';
 
-          contents.forEach(content => {
-            content.style.display = 'none';
-          });
+          contents.forEach(content => content.classList.add('hidden'));
 
-          document.getElementById(`tab-${targetTab}`).style.display = 'block';
+          document.getElementById(`tab-${targetTab}`).classList.remove('hidden');
 
           if (targetTab === 'orders') {
             renderOrders();
           }
         });
       });
-
-      // Initialize active tab
-      tabs[0].style.color = 'var(--accent)';
-      tabs[0].style.borderBottomColor = 'var(--accent)';
 
       // Handle profile update
       const form = document.getElementById('profile-form');
@@ -218,8 +206,8 @@
         e.preventDefault();
 
         updateBtn.disabled = true;
-        btnText.style.display = 'none';
-        btnLoader.style.display = 'inline-flex';
+        btnText.classList.add('hidden');
+        btnLoader.classList.remove('hidden');
         successMsg.style.display = 'none';
 
         await new Promise(resolve => setTimeout(resolve, 800));
@@ -240,8 +228,8 @@
         const result = HabinessAuth.updateUserProfile(updates);
 
         updateBtn.disabled = false;
-        btnText.style.display = 'inline';
-        btnLoader.style.display = 'none';
+        btnText.classList.remove('hidden');
+        btnLoader.classList.add('hidden');
 
         if (result.success) {
           successMsg.style.display = 'block';
@@ -261,12 +249,12 @@
 
         if (!user || !user.orders || user.orders.length === 0) {
           ordersList.innerHTML = `
-            <div style="text-align: center; padding: var(--sp-6) 0; color: var(--text-light);">
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto var(--sp-3); opacity: 0.3;">
+            <div class="empty-orders">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6 2L3 6v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3 6h18M16 10a4 4 0 0 1-8 0"/>
               </svg>
-              <h3 style="margin-bottom: var(--sp-2);">No orders yet</h3>
-              <p style="margin-bottom: var(--sp-3);">Start shopping to see your orders here.</p>
+              <h3>No orders yet</h3>
+              <p>Start shopping to see your orders here.</p>
               <a href="shop.html" class="btn btn-outline">Browse Products</a>
             </div>
           `;
@@ -282,22 +270,22 @@
           });
 
           return `
-            <div style="border-bottom: 1px solid rgba(140, 90, 60, 0.12); padding: var(--sp-3) 0;">
-              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: var(--sp-2);">
+            <div class="order-row">
+              <div class="order-row-header">
                 <div>
-                  <h3 style="font-size: 1rem; margin-bottom: 4px;">Order #${order.id}</h3>
-                  <p style="font-size: 0.85rem; color: var(--text-light);">${formattedDate}</p>
+                  <h3 class="order-row-title">Order #${order.id}</h3>
+                  <p class="order-row-date">${formattedDate}</p>
                 </div>
-                <span style="padding: 4px 12px; background: rgba(192, 133, 82, 0.15); color: var(--accent-dark); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; border-radius: 4px;">${order.status}</span>
+                <span class="order-status">${order.status}</span>
               </div>
-              <div style="margin-bottom: var(--sp-2);">
+              <div class="order-items">
                 ${order.items.map(item => `
-                  <div style="font-size: 0.9rem; color: var(--text-light); padding: 4px 0;">
+                  <div class="order-item">
                     ${item.name} × ${item.qty} - ${HabinessCart.formatPrice(item.subtotal)}
                   </div>
                 `).join('')}
               </div>
-              <div style="font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; color: var(--accent);">
+              <div class="order-total">
                 Total: ${HabinessCart.formatPrice(order.total)}
               </div>
             </div>
