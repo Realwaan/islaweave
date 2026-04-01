@@ -183,6 +183,6 @@ Visit Site → Browse Products → Add to Cart → Checkout
 
 ---
 
-**Created by**: GitHub Copilot CLI  
+**Created by**: 
 **Date**: March 31, 2026  
 **Status**: ✅ Production Ready (Demo Version)
